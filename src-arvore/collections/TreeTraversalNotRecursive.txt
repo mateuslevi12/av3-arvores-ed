@@ -76,3 +76,7 @@ private void inOrder(Node node) {
         }
     }
 }
+
+dst - que tem os tres post, pre, in
+
+bst - nao recursivo e so tem um tree traversal
