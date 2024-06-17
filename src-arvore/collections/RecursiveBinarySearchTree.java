@@ -10,7 +10,7 @@ public class RecursiveBinarySearchTree<E> extends AbstractTree<E> {
 
     private Node minNode(Node current) {
         if (current.left == null) {
-            return current;
+            return current.right;
         }
         return minNode(current.left);
 
@@ -18,22 +18,25 @@ public class RecursiveBinarySearchTree<E> extends AbstractTree<E> {
 
     private Node maxNode(Node current) {
         if (current.right == null) {
-            return current;
+            return current.left;
         }
-        return maxNode(current.right);
+        return minNode(current.right);
     }
 
     private Node contains(E value, Node current) {
         if (current == null) {
             return null;
         }
-
-        if (compare(value, current) < 0) {
+        
+        int comparacao = compare(value, current);
+        if (comparacao < 0) {
             current = contains(value, current.left);
-        } else if (compare(value, current) > 0) {
+        } else if (comparacao > 0) {
             current = contains(value, current.right);
         }
+
         return current;
+
     }
 
     @Override
@@ -66,11 +69,6 @@ public class RecursiveBinarySearchTree<E> extends AbstractTree<E> {
         }
         return current;
     }
-
-    // private void deleteMinNode() {
-    //     Node minNode = minNode(root);
-    //     minNode = minNode.right;
-    // }
 
     @Override
     public E delete(E value) {
@@ -160,26 +158,28 @@ public class RecursiveBinarySearchTree<E> extends AbstractTree<E> {
 
     private Node deleteMinNode(Node current) {
         if (current.left == null) {
-            // O menor nó é encontrado, atualiza o ponteiro para a subárvore direita
             return current.right;
         }
         current.left = deleteMinNode(current.left);
+
         return current;
     }
-    
+
     public void deleteMinNode() {
         if (root != null) {
             root = deleteMinNode(root);
         }
     }
+
     private Node deleteMaxNode(Node current) {
         if (current.right == null) {
             return current.left;
         }
-        current.right = deleteMaxNode(current.right);
+        current.right = deleteMinNode(current.right);
+
         return current;
     }
-    
+
     public void deleteMaxNode() {
         if (root != null) {
             root = deleteMaxNode(root);
@@ -194,10 +194,4 @@ public class RecursiveBinarySearchTree<E> extends AbstractTree<E> {
         return size;
     }
 
-    
-
 }
-
-
-
-

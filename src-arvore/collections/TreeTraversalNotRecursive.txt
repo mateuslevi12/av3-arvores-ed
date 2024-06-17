@@ -1,0 +1,78 @@
+private void postOrder(Node node) {
+    if (node == null) {
+        return;
+    }
+
+    Queue<Node> queue1 = new LinkedList<>();
+    Queue<Node> queue2 = new LinkedList<>();
+    queue1.add(node);
+
+    while (!queue1.isEmpty()) {
+        Node temp = queue1.poll();
+        queue2.add(temp);
+
+        if (temp.left != null) {
+            queue1.add(temp.left);
+        }
+
+        if (temp.right != null) {
+            queue1.add(temp.right);
+        }
+    }
+
+    while (!queue2.isEmpty()) {
+        Node temp = queue2.poll();
+        System.out.print(temp.value + " ");
+    }
+}
+
+private void preOrder(Node node) {
+    if (node == null) {
+        return;
+    }
+
+    Queue<Node> queue = new LinkedList<>();
+    queue.add(node);
+
+    while (!queue.isEmpty()) {
+        Node temp = queue.poll();
+        System.out.print(temp.value + " ");
+
+        // Note the reverse order of addition to the queue
+        if (temp.right != null) {
+            queue.add(temp.right);
+        }
+
+        if (temp.left != null) {
+            queue.add(temp.left);
+        }
+    }
+}
+
+
+private void inOrder(Node node) {
+    if (node == null) {
+        return;
+    }
+
+    Queue<Node> queue = new LinkedList<>();
+    Node current = node;
+    Node prev = null;
+
+    while (current != null || !queue.isEmpty()) {
+        while (current != null) {
+            queue.add(current);
+            current = current.left;
+        }
+
+        current = queue.poll();
+        if (current.right == null || current.right == prev) {
+            System.out.print(current.value + " ");
+            prev = current;
+            current = null;
+        } else {
+            queue.add(current);
+            current = current.right;
+        }
+    }
+}
